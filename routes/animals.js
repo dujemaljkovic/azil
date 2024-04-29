@@ -43,6 +43,38 @@ animalsRouter.post('/', async (req, res) => {
   }
 });
 
+animalsRouter.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const { name, species, age, adopted, description, image, chip, lastViewed } =
+    req.body;
+
+  try {
+    const updatedAnimal = await Animal.findByIdAndUpdate(
+      id,
+      {
+        name,
+        species,
+        age,
+        adopted,
+        description,
+        image,
+        chip,
+        lastViewed,
+      },
+      { new: true }
+    );
+
+    if (!updatedAnimal) {
+      return res.status(404).json({ error: "Animal not found" });
+    }
+
+    res.json(updatedAnimal);
+  } catch (error) {
+    console.error("Error updating animal:", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 
 animalsRouter.delete('/:id', async (req, res) => {
   try {
