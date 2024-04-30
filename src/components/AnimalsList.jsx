@@ -17,7 +17,6 @@ function AnimalsList() {
 
   useEffect(() => {
     axios.get("http://localhost:3000/animals").then((response) => {
-      console.log(response.data)
       setAnimals(response.data);
     });
   }, []);
@@ -56,7 +55,7 @@ function AnimalsList() {
 
   const handleAdopt = (id) => {
     const updatedAnimals = animals.map((animal) =>
-      animal.id === id ? { ...animal, adopted: true } : animal
+      animal._id === id ? { ...animal, adopted: true } : animal
     );
     setAnimals(updatedAnimals);
   };
@@ -165,7 +164,7 @@ function AnimalsList() {
               <Button
                 variant="success"
                 disabled={item.adopted}
-                onClick={() => handleAdopt(item.id)}
+                onClick={() => handleAdopt(item._id)}
               >
                 Adopt
               </Button>{" "}

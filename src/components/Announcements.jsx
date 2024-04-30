@@ -58,19 +58,33 @@ function Notifications() {
     event.preventDefault();
     const currentDate = formattedDate;
     const notificationToAdd = { ...newNotification, addedAt: currentDate };
+    
     axios
-      .post("http://localhost:3000/announcements", notificationToAdd)
-      .then((response) => {
-        setNotifications((prevState) => [response.data, ...prevState]);
-        setNewNotification({ title: "", text: "", important: false });
-        setShowModal(false);
-      });
-  };
+        .post("http://localhost:3000/announcements", notificationToAdd)
+        .then((response) => {
+            console.log("New announcement response:", response.data);
+            
+            // Update state with the newly created announcement
+            setNotifications((prevState) => [response.data.announcement, ...prevState]);
+            
+            // Reset the form fields and close the modal
+            setNewNotification({ title: "", text: "", important: false });
+            setShowModal(false);
+        })
+        .catch((error) => {
+            console.error("Error creating announcement:", error);
+        });
+};
+
+  
+  
+  
+  
 
   const handleDeleteNotification = (id) => {
     axios.delete(`http://localhost:3000/announcements/${id}`).then(() => {
       setNotifications((prevState) =>
-        prevState.filter((notification) => notification.id !== id)
+        prevState.filter((notification) => notification._id !== id)
       );
     });
   };
@@ -128,7 +142,7 @@ function Notifications() {
       <ListGroup>
         {sortedNotifications.map((notification) => (
           <Card
-            key={notification.id}
+            key={notification._id}
             border={notification.important ? "danger" : "success"}
             style={{ marginTop: "20px" }}
           >
@@ -142,7 +156,7 @@ function Notifications() {
                 {isAdmin && (
                   <Button
                     variant="danger"
-                    onClick={() => handleDeleteNotification(notification.id)}
+                    onClick={() => handleDeleteNotification(notification._id)}
                   >
                     <FaTrash />
                   </Button>
