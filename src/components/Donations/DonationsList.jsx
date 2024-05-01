@@ -66,7 +66,7 @@ function DonationsList() {
   const handleDelete = (donationId) => {
     axios.delete(`http://localhost:3000/donations/${donationId}`).then(() => {
       const updatedDonations = donations.filter(
-        (donation) => donation.id !== donationId
+        (donation) => donation._id !== donationId
       );
       setDonations(updatedDonations);
     });

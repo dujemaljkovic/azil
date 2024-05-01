@@ -30,14 +30,14 @@ function DonationTable(props) {
                 <>
                   <Button
                     variant="success"
-                    onClick={() => onMarkAsDonated(donation.id)}
+                    onClick={() => onMarkAsDonated(donation._id)}
                   >
                     <FaCheck /> as Donated
                   </Button>
 
                   <Button
                     variant="danger"
-                    onClick={() => onDelete(donation.id)}
+                    onClick={() => onDelete(donation._id)}
                   >
                     <FaTrash />
                   </Button>
@@ -46,7 +46,7 @@ function DonationTable(props) {
               {!isAdmin && donation.category !== "donated" && donation.category !== "offers" && (
                 <Button
                   variant="success"
-                  onClick={() => onMarkAsDonated(donation.id)}
+                  onClick={() => onMarkAsDonated(donation._id)}
                 >
                   Donate
                 </Button>
@@ -55,7 +55,7 @@ function DonationTable(props) {
                 <>
                   <Button
                     variant="success"
-                    onClick={() => onMarkAsDonated(donation.id)}
+                    onClick={() => onMarkAsDonated(donation._id)}
                   >
                     Accept <FaCheck />
                   </Button>
@@ -65,13 +65,13 @@ function DonationTable(props) {
                 <>
                   <Button
                     variant="primary"
-                    onClick={() => onRepeat(donation.id)}
+                    onClick={() => onRepeat(donation._id)}
                   >
                     Repeat
                   </Button>
                   <Button
                     variant="danger"
-                    onClick={() => onDelete(donation.id)}
+                    onClick={() => onDelete(donation._id)}
                   >
                     <FaTrash />
                   </Button>
