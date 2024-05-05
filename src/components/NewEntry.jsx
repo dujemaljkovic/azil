@@ -12,26 +12,50 @@ const NewEntry = () => {
   const [chip, setChip] = useState(false);
   const [lastViewed, setLastViewed] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3000/animals", {
-      name,
-      species,
-      age,
-      adopted,
-      image,
-      description,
-      chip,
-      lastViewed,
-    });
-    setName("");
-    setSpecies("");
-    setAge("");
-    setAdopted("");
-    setDescription("");
-    setChip("");
-    setLastViewed("");
+    try {
+      const token = localStorage.getItem('token'); // Retrieve the JWT token from storage
+      if (!token) {
+        // Handle case where token is not available (user is not authenticated)
+        console.error('Authentication token not found');
+        return;
+      }
+      const adoptedValue = adopted;
+      // Include the authorization header with the JWT token in the request
+      const response = await axios.post("http://localhost:3000/animals", {
+        name,
+        species,
+        age,
+        adopted: adoptedValue,
+        image,
+        description,
+        chip,
+        lastViewed,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}` // Attach the token in the "Bearer" format
+        }
+      });
+      
+      // Handle successful response
+      console.log("New animal created:", response.data);
+      
+      // Clear form fields
+      setName("");
+      setSpecies("");
+      setAge("");
+      setAdopted(false);
+      setDescription("");
+      setChip(false);
+      setLastViewed("");
+    } catch (error) {
+      // Handle errors
+      console.error("Error creating new animal:", error);
+      // Optionally, show error message to the user
+    }
   };
+  
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];

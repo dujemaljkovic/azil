@@ -1,13 +1,21 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
-import { Nav, Navbar, Button, Container } from "react-bootstrap";
+import { Nav, Navbar, Container, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
 export default function Navigation() {
-  const { isAdmin, toggleRole } = useContext(UserContext);
+  const { isAdmin, setIsAdmin } = useContext(UserContext);
 
-  const handleToggle = () => {
-    toggleRole();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Perform logout logic here, such as removing token from localStorage
+    localStorage.removeItem('token');
+    // Reset isAdmin state to false
+    setIsAdmin(false);
+    // Redirect user to the login page or any other desired route
+    navigate("/login");
   };
 
   return (
@@ -31,15 +39,15 @@ export default function Navigation() {
             <LinkContainer to="/announcements">
               <Nav.Link>Announcements</Nav.Link>
             </LinkContainer>
-            {isAdmin && (
+            {isAdmin && 
               <LinkContainer to="/newentry">
                 <Nav.Link>New Entry</Nav.Link>
               </LinkContainer>
-            )}
+            }
           </Nav>
-          <Button variant="outline-primary" onClick={handleToggle}>
-            {isAdmin ? "Switch to User" : "Switch to Admin"}
-          </Button>
+          <Nav>
+            <Button variant="outline-primary" onClick={handleLogout}>Logout</Button>
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -5,13 +5,11 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState(false);
+  console.log('isAdmin:', isAdmin);
 
-  const toggleRole = () => {
-    setIsAdmin(!isAdmin);
-  };
 
   return (
-    <UserContext.Provider value={{ isAdmin, toggleRole }}>
+    <UserContext.Provider value={{ isAdmin, setIsAdmin }}>
       {children}
     </UserContext.Provider>
   );

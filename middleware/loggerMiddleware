@@ -1,0 +1,10 @@
+const loggerMiddleware = (err, req, res, next) => {
+  if (process.env.NODE_ENV === "development") {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+    console.log('Request Headers:', req.headers);
+    console.log('Request Body:', req.body);
+  }
+  next();
+};
+
+export default loggerMiddleware;

@@ -1,6 +1,7 @@
 import { Router } from "express";
-import Animal from '../models/animals.js'; // Corrected import statement
-
+import Animal from '../models/animals.js'; 
+import checkRole from "../middleware/checkRole.js";
+import checkToken from "../middleware/checkToken.js";
 const animalsRouter = Router();
 
 // Route to fetch all animals
@@ -14,11 +15,12 @@ animalsRouter.get('/', async (req, res) => { // Removed '/animals' from the rout
   }
 });
 
-animalsRouter.post('/', async (req, res) => {
+animalsRouter.post('/', checkToken, checkRole("admin"), async (req, res) => {
   try {
     // Extract data from the request body
+    
     const { name, species, age, adopted, description, image, chip, lastViewed } = req.body;
-
+  
     // Create a new Animal document
     const newAnimal = new Animal({
       name,

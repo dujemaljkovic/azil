@@ -8,6 +8,9 @@ import Donations from "./components/Donations/DonationsList";
 import Announcements from "./components/Announcements";
 import NewEntry from "./components/NewEntry";
 import Navigation from "./components/Navigation";
+import RegistrationForm from "./components/RegistrationForm";
+import LoginForm from "./components/LoginForm";
+
 import { UserProvider } from "./context/UserContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -15,7 +18,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <UserProvider>
       <Navigation />
       <Routes>
-        <Route path="/" element={<AboutUs />} />
+        <Route path="/" element={<RegistrationForm />} />
+        <Route path="/login" element={<LoginForm />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/animalsList" element={<AnimalsList />} />
         <Route path="/donations" element={<Donations />} />
